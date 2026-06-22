@@ -139,7 +139,7 @@ Add screenshots of:
 
 ## 👨‍💻 Author
 
-**Pradhumn Khot**
+**Pradyumna Khot**
 
 Java Full Stack Developer
 
