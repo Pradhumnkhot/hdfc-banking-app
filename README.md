@@ -2,12 +2,13 @@
 
 ## Overview
 
-A Banking Management System developed using Spring Boot Microservices, React.js, MySQL, Eureka Service Discovery, and API Gateway.
+A Full Stack Banking Management System developed using Spring Boot Microservices, React.js, MySQL, Kafka, Redis, Eureka Service Discovery, API Gateway, and Resilience4j Circuit Breaker.
 
 The application supports:
 
-* User Login
+* User Login & Authentication
 * User Profile Management
+* Change Password
 * Deposit Money
 * Withdraw Money
 * Fund Transfer
@@ -15,34 +16,41 @@ The application supports:
 * Notification Service
 * Service Discovery using Eureka
 * API Gateway Routing
+* Kafka Event Streaming
+* Redis Caching
+* Circuit Breaker Pattern
+* Dockerized Infrastructure
 
 ---
 
 ## Architecture
 
+```text
 React Frontend
 
-↓
+        ↓
 
 API Gateway (8081)
 
-↓
+        ↓
 
-USER-SERVICE (8082)
+----------------------------------------------------------
+|               |                |                       |
+USER-SERVICE    BANK-SERVICE     TRANSACTION-SERVICE    NOTIFICATION-SERVICE
+(8082)          (8080)           (8083)                 (8084)
 
-BANK-SERVICE (8080)
+                        ↓
+                     Kafka
 
-TRANSACTION-SERVICE (8083)
+                        ↓
+                     Redis
 
-NOTIFICATION-SERVICE (8084)
+                        ↓
+                     MySQL
 
-↓
-
-MySQL Database
-
-↓
-
-EUREKA SERVER (8761)
+                        ↓
+                 EUREKA SERVER (8761)
+```
 
 ---
 
@@ -53,22 +61,30 @@ EUREKA SERVER (8761)
 * Java 17
 * Spring Boot
 * Spring Data JPA
+* Spring Security
+* JWT Authentication
 * Spring Cloud Eureka
 * Spring Cloud Gateway
+* Spring Kafka
+* Redis Cache
+* Resilience4j Circuit Breaker
 * Maven
 
 ### Frontend
 
 * React.js
 * Axios
-* React Router
+* React Router DOM
+* Bootstrap / CSS
 
 ### Database
 
 * MySQL
 
-### Tools
+### DevOps & Tools
 
+* Docker
+* Docker Compose
 * Git
 * GitHub
 * Postman
@@ -80,67 +96,169 @@ EUREKA SERVER (8761)
 
 ### Eureka Server
 
-Port: 8761
+**Port:** 8761
 
-Service Discovery and Registration.
+Features:
+
+* Service Discovery
+* Service Registration
+
+---
 
 ### API Gateway
 
-Port: 8081
+**Port:** 8081
 
-Single Entry Point for all APIs.
+Features:
+
+* Single Entry Point
+* Request Routing
+* Load Balancing Support
+
+---
 
 ### User Service
 
-Port: 8082
+**Port:** 8082
 
 Features:
 
-* Register User
-* Login User
-* Profile Management
+* User Registration
+* User Login
 * Change Password
+* Profile Management
+* Redis Cache Integration
+
+---
 
 ### Bank Service
 
-Port: 8080
+**Port:** 8080
 
 Features:
 
-* Deposit
-* Withdraw
-* Transfer
+* Deposit Money
+* Withdraw Money
+* Fund Transfer
 * Account Details
+* Kafka Producer
+* Circuit Breaker Implementation
+
+---
 
 ### Transaction Service
 
-Port: 8083
+**Port:** 8083
 
 Features:
 
 * Transaction History
 * Transaction Details
+* Kafka Consumer
+
+---
 
 ### Notification Service
 
-Port: 8084
+**Port:** 8084
 
 Features:
 
 * Deposit Alerts
 * Transfer Alerts
+* Kafka Consumer
 * Notification APIs
+
+---
+
+## Kafka Integration
+
+### Producer
+
+* Bank Service
+
+### Consumers
+
+* Transaction Service
+* Notification Service
+
+### Topic
+
+* transaction-topic
+
+### Flow
+
+```text
+Bank Service
+      |
+      v
+Kafka Topic
+      |
+-------------------------
+|                       |
+v                       v
+Transaction Service   Notification Service
+```
+
+---
+
+## Redis Caching
+
+Redis is used to cache frequently accessed user data.
+
+Benefits:
+
+* Faster API Response Time
+* Reduced Database Calls
+* Improved Performance
+
+---
+
+## Circuit Breaker
+
+Implemented using Resilience4j.
+
+Example:
+
+```text
+Bank Service
+      |
+      v
+User Service
+```
+
+If User Service is unavailable:
+
+```text
+User Service is Down. Please try later.
+```
+
+Fallback response is returned without impacting the entire system.
 
 ---
 
 ## Running the Project
 
+### Start Infrastructure
+
+```bash
+docker compose up -d
+```
+
+This starts:
+
+* Kafka
+* Zookeeper
+* Redis
+
+---
+
 ### Start Services in Order
 
 1. Eureka Server
 2. API Gateway
-3. Bank Service
-4. User Service
+3. User Service
+4. Bank Service
 5. Transaction Service
 6. Notification Service
 7. React Application
@@ -151,40 +269,75 @@ Features:
 
 ### Login
 
-POST
-/api/auth/login
+```http
+POST /api/auth/login
+```
+
+### Change Password
+
+```http
+PUT /api/auth/change-password
+```
 
 ### Deposit
 
-POST
-/api/account/deposit
+```http
+POST /api/account/deposit
+```
 
 ### Withdraw
 
-POST
-/api/account/withdraw
+```http
+POST /api/account/withdraw
+```
 
 ### Transfer
 
-POST
-/api/account/transfer
+```http
+POST /api/account/transfer
+```
 
 ### Transactions
 
-GET
-/transactions
+```http
+GET /transactions
+```
+
+### Kafka Publish
+
+```http
+POST /kafka/send?msg=Deposit10000
+```
+
+---
+
+## Features Implemented
+
+* Microservices Architecture
+* React Frontend
+* Eureka Service Discovery
+* API Gateway
+* MySQL Integration
+* JWT Authentication (Basic)
+* Kafka Producer
+* Kafka Consumer
+* Redis Cache
+* Circuit Breaker Pattern
+* Docker Compose Setup
+* GitHub Integration
 
 ---
 
 ## Future Enhancements
 
-* JWT Authentication
-* Spring Security
-* Docker
-* Kubernetes
-* Kafka Integration
+* OpenFeign Client
+* Swagger/OpenAPI Documentation
 * Email Notifications
 * SMS Notifications
+* Kubernetes Deployment
+* Spring Cloud Config Server
+* ELK/Splunk Logging
+* Prometheus & Grafana Monitoring
 
 ---
 
