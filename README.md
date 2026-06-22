@@ -1,148 +1,198 @@
-# 🏦 HDFC Banking Application
+# HDFC Banking Application - Microservices Architecture
 
-A Full Stack Banking Application developed using **React.js**, **Spring Boot**, and **MySQL**.
+## Overview
 
-## 🚀 Features
+A Banking Management System developed using Spring Boot Microservices, React.js, MySQL, Eureka Service Discovery, and API Gateway.
 
-* User Login Authentication
+The application supports:
+
+* User Login
+* User Profile Management
 * Deposit Money
 * Withdraw Money
 * Fund Transfer
-* Account Statement PDF Download
 * Transaction History
-* User Profile Management
-* Change Password
-* Voice Banking Navigation
-* Responsive UI Design
+* Notification Service
+* Service Discovery using Eureka
+* API Gateway Routing
 
 ---
 
-## 🛠️ Technology Stack
+## Architecture
 
-### Frontend
+React Frontend
 
-* React.js
-* Vite
-* Axios
-* React Router DOM
-* React Toastify
-* React Speech Recognition
+↓
+
+API Gateway (8081)
+
+↓
+
+USER-SERVICE (8082)
+
+BANK-SERVICE (8080)
+
+TRANSACTION-SERVICE (8083)
+
+NOTIFICATION-SERVICE (8084)
+
+↓
+
+MySQL Database
+
+↓
+
+EUREKA SERVER (8761)
+
+---
+
+## Technologies Used
 
 ### Backend
 
 * Java 17
 * Spring Boot
 * Spring Data JPA
+* Spring Cloud Eureka
+* Spring Cloud Gateway
 * Maven
+
+### Frontend
+
+* React.js
+* Axios
+* React Router
 
 ### Database
 
 * MySQL
 
----
+### Tools
 
-## 📂 Project Structure
-
-```text
-hdfc-banking-app
-│
-├── my-react-app      # React Frontend
-│
-├── newstar-1         # Spring Boot Backend
-│
-└── bank_management.sql   # Database Script
-```
+* Git
+* GitHub
+* Postman
+* Spring Tool Suite (STS)
 
 ---
 
-## ⚙️ Setup Instructions
+## Microservices
 
-### Clone Repository
+### Eureka Server
 
-```bash
-git clone https://github.com/Pradhumnkhot/hdfc-banking-app.git
-```
+Port: 8761
 
-### Frontend Setup
+Service Discovery and Registration.
 
-```bash
-cd my-react-app
-npm install
-npm run dev
-```
+### API Gateway
 
-Frontend will run on:
+Port: 8081
 
-```text
-http://localhost:5173
-```
+Single Entry Point for all APIs.
 
-### Backend Setup
+### User Service
 
-```bash
-cd newstar-1
-mvn spring-boot:run
-```
+Port: 8082
 
-Backend will run on:
+Features:
 
-```text
-http://localhost:8080
-```
+* Register User
+* Login User
+* Profile Management
+* Change Password
 
-### Database Setup
+### Bank Service
 
-1. Open MySQL Workbench
-2. Create database:
+Port: 8080
 
-```sql
-CREATE DATABASE bank_management;
-```
-
-3. Import:
-
-```text
-bank_management.sql
-```
-
----
-
-## 🎤 Voice Banking Commands
-
-Speak the following commands:
+Features:
 
 * Deposit
 * Withdraw
 * Transfer
-* Statement
-* History
-* Profile
-* Password
-* Logout
+* Account Details
 
-The application automatically navigates to the corresponding page.
+### Transaction Service
+
+Port: 8083
+
+Features:
+
+* Transaction History
+* Transaction Details
+
+### Notification Service
+
+Port: 8084
+
+Features:
+
+* Deposit Alerts
+* Transfer Alerts
+* Notification APIs
 
 ---
 
-## 📸 Screenshots
+## Running the Project
 
-Add screenshots of:
+### Start Services in Order
 
-* Login Page
-* Dashboard
-* Deposit Page
-* Transfer Page
-* Statement Page
-* Voice Banking Feature
+1. Eureka Server
+2. API Gateway
+3. Bank Service
+4. User Service
+5. Transaction Service
+6. Notification Service
+7. React Application
 
 ---
 
-## 👨‍💻 Author
+## API Examples
 
-**Pradyumna Khot**
+### Login
+
+POST
+/api/auth/login
+
+### Deposit
+
+POST
+/api/account/deposit
+
+### Withdraw
+
+POST
+/api/account/withdraw
+
+### Transfer
+
+POST
+/api/account/transfer
+
+### Transactions
+
+GET
+/transactions
+
+---
+
+## Future Enhancements
+
+* JWT Authentication
+* Spring Security
+* Docker
+* Kubernetes
+* Kafka Integration
+* Email Notifications
+* SMS Notifications
+
+---
+
+## Author
+
+Pradhumn Khot
 
 Java Full Stack Developer
 
-### GitHub Repository
-
+GitHub Repository:
 https://github.com/Pradhumnkhot/hdfc-banking-app
