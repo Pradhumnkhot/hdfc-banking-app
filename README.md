@@ -1,156 +1,178 @@
-# HDFC Banking Application - Microservices Architecture
+# 🏦 HDFC Banking Application - Microservices Architecture
 
-## Overview
+A Full Stack Banking Management System built using **Spring Boot Microservices**, **React.js**, **MySQL**, **Kafka**, **Redis**, **Eureka Service Discovery**, **API Gateway**, and **Resilience4j Circuit Breaker**.
 
-A Full Stack Banking Management System developed using Spring Boot Microservices, React.js, MySQL, Kafka, Redis, Eureka Service Discovery, API Gateway, and Resilience4j Circuit Breaker.
+---
 
-The application supports:
+## 🚀 Features
 
-* User Login & Authentication
-* User Profile Management
+### User Management
+
+* User Registration
+* User Login Authentication
 * Change Password
+* User Profile Management
+* Role-Based Access (Admin/User)
+
+### Banking Operations
+
 * Deposit Money
 * Withdraw Money
 * Fund Transfer
+* Account Information
 * Transaction History
-* Notification Service
-* Service Discovery using Eureka
+
+### Microservices Features
+
+* Eureka Service Discovery
 * API Gateway Routing
 * Kafka Event Streaming
 * Redis Caching
 * Circuit Breaker Pattern
-* Dockerized Infrastructure
+* JWT Authentication
+* Dockerized Deployment
 
 ---
 
-## Architecture
+# 🏗️ System Architecture
 
 ```text
-React Frontend
+React Frontend (Vite + React)
+            |
+            v
+      API Gateway
+        (8081)
+            |
+---------------------------------------------------
+|              |               |                  |
+v              v               v                  v
+User Service  Bank Service  Transaction Service Notification Service
+(8082)        (8080)        (8083)              (8084)
 
-        ↓
+                    |
+                    v
+                 Kafka
+                    |
+         ----------------------
+         |                    |
+         v                    v
+Transaction Service    Notification Service
 
-API Gateway (8081)
+                    |
+                    v
+                 Redis
 
-        ↓
+                    |
+                    v
+                 MySQL
 
-----------------------------------------------------------
-|               |                |                       |
-USER-SERVICE    BANK-SERVICE     TRANSACTION-SERVICE    NOTIFICATION-SERVICE
-(8082)          (8080)           (8083)                 (8084)
-
-                        ↓
-                     Kafka
-
-                        ↓
-                     Redis
-
-                        ↓
-                     MySQL
-
-                        ↓
-                 EUREKA SERVER (8761)
+                    |
+                    v
+              Eureka Server
+                 (8761)
 ```
 
 ---
 
-## Technologies Used
+# 💻 Technology Stack
 
-### Backend
+## Backend
 
 * Java 17
 * Spring Boot
-* Spring Data JPA
 * Spring Security
 * JWT Authentication
-* Spring Cloud Eureka
+* Spring Data JPA
 * Spring Cloud Gateway
+* Spring Cloud Eureka
 * Spring Kafka
 * Redis Cache
 * Resilience4j Circuit Breaker
 * Maven
 
-### Frontend
+## Frontend
 
 * React.js
+* Vite
 * Axios
 * React Router DOM
-* Bootstrap / CSS
+* CSS
 
-### Database
+## Database
 
 * MySQL
 
-### DevOps & Tools
+## DevOps & Tools
 
 * Docker
 * Docker Compose
 * Git
 * GitHub
 * Postman
-* Spring Tool Suite (STS)
+* STS / IntelliJ IDEA
 
 ---
 
-## Microservices
+# 📦 Microservices
 
-### Eureka Server
+## Eureka Server
 
 **Port:** 8761
 
-Features:
+### Features
 
 * Service Discovery
 * Service Registration
 
 ---
 
-### API Gateway
+## API Gateway
 
 **Port:** 8081
 
-Features:
+### Features
 
-* Single Entry Point
+* Central Entry Point
 * Request Routing
 * Load Balancing Support
 
 ---
 
-### User Service
+## User Service
 
 **Port:** 8082
 
-Features:
+### Features
 
 * User Registration
 * User Login
 * Change Password
 * Profile Management
 * Redis Cache Integration
+* JWT Authentication
 
 ---
 
-### Bank Service
+## Bank Service
 
 **Port:** 8080
 
-Features:
+### Features
 
 * Deposit Money
 * Withdraw Money
 * Fund Transfer
 * Account Details
 * Kafka Producer
-* Circuit Breaker Implementation
+* Circuit Breaker
 
 ---
 
-### Transaction Service
+## Transaction Service
 
 **Port:** 8083
 
-Features:
+### Features
 
 * Transaction History
 * Transaction Details
@@ -158,35 +180,36 @@ Features:
 
 ---
 
-### Notification Service
+## Notification Service
 
 **Port:** 8084
 
-Features:
+### Features
 
-* Deposit Alerts
-* Transfer Alerts
+* Deposit Notifications
+* Transfer Notifications
 * Kafka Consumer
-* Notification APIs
 
 ---
 
-## Kafka Integration
+# 🔄 Kafka Integration
 
-### Producer
+## Producer
 
 * Bank Service
 
-### Consumers
+## Consumers
 
 * Transaction Service
 * Notification Service
 
-### Topic
+## Topic
 
-* transaction-topic
+```text
+transaction-topic
+```
 
-### Flow
+### Event Flow
 
 ```text
 Bank Service
@@ -194,31 +217,32 @@ Bank Service
       v
 Kafka Topic
       |
--------------------------
-|                       |
-v                       v
-Transaction Service   Notification Service
+-----------------------
+|                     |
+v                     v
+Transaction Service  Notification Service
 ```
 
 ---
 
-## Redis Caching
+# ⚡ Redis Caching
 
 Redis is used to cache frequently accessed user data.
 
-Benefits:
+### Benefits
 
-* Faster API Response Time
-* Reduced Database Calls
-* Improved Performance
+* Faster API Response
+* Reduced Database Load
+* Better Performance
+* Improved Scalability
 
 ---
 
-## Circuit Breaker
+# 🛡️ Circuit Breaker
 
-Implemented using Resilience4j.
+Implemented using **Resilience4j**.
 
-Example:
+### Example
 
 ```text
 Bank Service
@@ -227,57 +251,43 @@ Bank Service
 User Service
 ```
 
-If User Service is unavailable:
+If User Service becomes unavailable:
 
 ```text
-User Service is Down. Please try later.
+User Service is Down. Please try again later.
 ```
 
-Fallback response is returned without impacting the entire system.
+Fallback response is returned without affecting the entire application.
 
 ---
 
-## Running the Project
+# 🔐 Authentication
 
-### Start Infrastructure
+Implemented using JWT (JSON Web Token).
 
-```bash
-docker compose up -d
+### APIs
+
+#### Register
+
+```http
+POST /api/auth/register
 ```
 
-This starts:
-
-* Kafka
-* Zookeeper
-* Redis
-
----
-
-### Start Services in Order
-
-1. Eureka Server
-2. API Gateway
-3. User Service
-4. Bank Service
-5. Transaction Service
-6. Notification Service
-7. React Application
-
----
-
-## API Examples
-
-### Login
+#### Login
 
 ```http
 POST /api/auth/login
 ```
 
-### Change Password
+#### Change Password
 
 ```http
 PUT /api/auth/change-password
 ```
+
+---
+
+# 💰 Banking APIs
 
 ### Deposit
 
@@ -303,7 +313,7 @@ POST /api/account/transfer
 GET /transactions
 ```
 
-### Kafka Publish
+### Kafka Test API
 
 ```http
 POST /kafka/send?msg=Deposit10000
@@ -311,24 +321,80 @@ POST /kafka/send?msg=Deposit10000
 
 ---
 
-## Features Implemented
+# 🐳 Running the Project
+
+## Start Infrastructure
+
+```bash
+docker compose up -d
+```
+
+This starts:
+
+* Kafka
+* Zookeeper
+* Redis
+
+---
+
+## Start Services
+
+Run services in the following order:
+
+1. Eureka Server
+2. API Gateway
+3. User Service
+4. Bank Service
+5. Transaction Service
+6. Notification Service
+7. React Frontend
+
+---
+
+# 📸 Application Screenshots
+
+### Login Page
+
+<img width="1919" height="871" alt="73a89adf-0f7f-4af5-8906-59b4506b74be" src="https://github.com/user-attachments/assets/1281765a-047d-4eae-8d1d-e4073a4b3874" />
+
+### Registration Page
+
+<img width="1919" height="864" alt="b56a2932-36ef-4fb2-a388-404ac870f2fe" src="https://github.com/user-attachments/assets/88d26779-ef00-4807-a2e7-2f697491ee1d" />
+
+### Dashboard
+
+<img width="1919" height="858" alt="image" src="https://github.com/user-attachments/assets/979f14d1-78d2-4a38-aaa8-185b0ea4953f" />
+
+### Deposit Page
+
+<img width="1919" height="862" alt="75ff0c50-b8c5-4d57-97b8-0f91ce368c21" src="https://github.com/user-attachments/assets/eba4cecf-5e9c-43a0-8bc5-b01b4026ea16" />
+
+
+### Transaction History
+
+<img width="1903" height="859" alt="72f6558b-ac2e-4055-82a7-626ccaad4ded" src="https://github.com/user-attachments/assets/37081dd4-4550-487a-ba58-fe81ddb9627f" />
+
+---
+
+# ✅ Implemented Features
 
 * Microservices Architecture
 * React Frontend
-* Eureka Service Discovery
-* API Gateway
+* Spring Boot Backend
+* JWT Authentication
 * MySQL Integration
-* JWT Authentication (Basic)
+* Eureka Discovery Server
+* API Gateway
 * Kafka Producer
 * Kafka Consumer
 * Redis Cache
 * Circuit Breaker Pattern
-* Docker Compose Setup
-* GitHub Integration
+* Docker Support
+* GitHub CI Ready
 
 ---
 
-## Future Enhancements
+# 🚀 Future Enhancements
 
 * OpenFeign Client
 * Swagger/OpenAPI Documentation
@@ -336,16 +402,19 @@ POST /kafka/send?msg=Deposit10000
 * SMS Notifications
 * Kubernetes Deployment
 * Spring Cloud Config Server
-* ELK/Splunk Logging
-* Prometheus & Grafana Monitoring
+* ELK Stack Logging
+* Prometheus Monitoring
+* Grafana Dashboard
+* CI/CD Pipeline with Jenkins
 
 ---
 
-## Author
+# 👨‍💻 Author
 
-Pradyumna Khot
+**Pradyumna Khot**
 
 Java Full Stack Developer
 
-GitHub Repository:
+GitHub:
 https://github.com/Pradhumnkhot/hdfc-banking-app
+
