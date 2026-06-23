@@ -1,12 +1,14 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
+
+import java.rmi.registry.Registry;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.dtos.ChangePasswordRequest;
-import com.example.demo.dtos.LoginRequest;
-import com.example.demo.dtos.RegisterRequest;
-import com.example.demo.entityc.User;
-import com.example.demo.repositorys.UserRepository;
+import com.example.demo.dto.ChangePasswordRequest;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -19,26 +21,6 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    // Register User
-    @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            return "User already exists";
-        }
-
-        User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-
-        userRepository.save(user);
-
-        return "User Registered Successfully";
-    }
-
-    // Login User
     @PostMapping("/login")
     public User login(@RequestBody LoginRequest request) {
 
@@ -53,9 +35,24 @@ public class AuthController {
         return user;
     }
 
-    // Change Password
+    @PostMapping
+    public String register(@RequestBody RegisterRequest request) {
+    	if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+    		return "User already exists";
+    	}
+    	
+    	User user= new User();
+    	user.setName(request.getName());
+    	user.setEmail(request.getEmail());
+    	user.setPassword(request.getPassword());
+    	user.setRole(request.getRole());
+    	
+    	userRepository.save(user);
+    	return "User Registered Sucessfully";
+    }
     @PutMapping("/change-password")
-    public String changePassword(@RequestBody ChangePasswordRequest request) {
+    public String changePassword(
+            @RequestBody ChangePasswordRequest request) {
 
         User user = userRepository
                 .findByEmail(request.getEmail())

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import bankimg from "./assets/bankimg.jpeg";
+  import bankimg from "./assets/bankimg.jpeg";
+  import {Link} from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -94,21 +95,25 @@ function Login() {
       {/* Login Card */}
       <form
         onSubmit={loginUser}
-        style={{
-          width: "420px",
-          padding: "35px",
-          background: "rgba(255,255,255,0.10)",
-          backdropFilter: "blur(15px)",
-          WebkitBackdropFilter: "blur(15px)",
-          border: "1px solid rgba(255,255,255,0.2)",
-          borderRadius: "20px",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+  style={{
+    width: "420px",
+    padding: "35px",
+    background: "rgba(255,255,255,0.15)",
+    backdropFilter: "blur(15px)",
+    WebkitBackdropFilter: "blur(15px)",
+    border: "1px solid rgba(255,255,255,0.3)",
+    borderRadius: "20px",
+    boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+
+    display: "flex",
+    flexDirection: "column",
+          
         }}
       >
         <h2
           style={{
             textAlign: "center",
-            color: "white",
+            color: "#0F172A",
             marginBottom: "25px",
           }}
         >
@@ -118,7 +123,7 @@ function Login() {
         <div style={{ marginBottom: "20px" }}>
           <label
             style={{
-              color: "white",
+              color: "#0F172A",
               fontWeight: "bold",
             }}
           >
@@ -136,9 +141,9 @@ function Login() {
               padding: "12px",
               marginTop: "8px",
               borderRadius: "8px",
-              border: "1px solid rgba(255,255,255,0.3)",
+              border: "1px solid rgba(79, 61, 61, 0.3)",
               background: "rgba(255,255,255,0.15)",
-              color: "white",
+              color: "black",
               boxSizing: "border-box",
             }}
           />
@@ -147,7 +152,7 @@ function Login() {
         <div style={{ marginBottom: "25px" }}>
           <label
             style={{
-              color: "white",
+              color: "black",
               fontWeight: "bold",
             }}
           >
@@ -167,7 +172,7 @@ function Login() {
               borderRadius: "8px",
               border: "1px solid rgba(255,255,255,0.3)",
               background: "rgba(255,255,255,0.15)",
-              color: "white",
+              color: "black",
               boxSizing: "border-box",
             }}
           />
@@ -189,6 +194,8 @@ function Login() {
         >
           Login
         </button>
+
+        <Link to="/register"> Register New User</Link>
       </form>
 
       {/* Footer */}
@@ -209,5 +216,4 @@ function Login() {
     </div>
   );
 }
-
 export default Login;

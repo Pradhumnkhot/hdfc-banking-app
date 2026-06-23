@@ -10,6 +10,7 @@ import Transfer from "./Transfer";
 import Statement from "./Statement";
 import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
+import Register from "./Register";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/history" element={<History />}/>
         <Route path="/profile" element={<Profile />}/>
         <Route path="/change-password" element={<ChangePassword />}/>
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
