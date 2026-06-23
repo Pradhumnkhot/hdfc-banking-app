@@ -1,35 +1,44 @@
 # 🏦 HDFC Banking Application - Microservices Architecture
 
-A Full Stack Banking Management System built using **Spring Boot Microservices**, **React.js**, **MySQL**, **Kafka**, **Redis**, **Eureka Service Discovery**, **API Gateway**, and **Resilience4j Circuit Breaker**.
+A Full Stack Banking Management System built using **Spring Boot Microservices**, **React.js**, **MySQL**, **Kafka**, **Redis**, **Eureka Service Discovery**, **API Gateway**, **OpenFeign Client**, **JWT Authentication**, and **Resilience4j Circuit Breaker**.
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 
-### User Management
+## User Management
 
 * User Registration
 * User Login Authentication
+* JWT Authentication
 * Change Password
 * User Profile Management
-* Role-Based Access (Admin/User)
+* Role-Based Access (Admin/User/Manager)
+* Dynamic Role Management
 
-### Banking Operations
+---
+
+## Banking Operations
 
 * Deposit Money
 * Withdraw Money
 * Fund Transfer
 * Account Information
 * Transaction History
+* Account Dashboard
 
-### Microservices Features
+---
+
+## Microservices Features
 
 * Eureka Service Discovery
 * API Gateway Routing
+* OpenFeign Client Communication
 * Kafka Event Streaming
 * Redis Caching
 * Circuit Breaker Pattern
 * JWT Authentication
+* Voice Banking Assistant
 * Dockerized Deployment
 
 ---
@@ -79,16 +88,19 @@ Transaction Service    Notification Service
 ## Backend
 
 * Java 17
-* Spring Boot
+* Spring Boot 3
 * Spring Security
 * JWT Authentication
 * Spring Data JPA
 * Spring Cloud Gateway
 * Spring Cloud Eureka
+* OpenFeign Client
 * Spring Kafka
 * Redis Cache
 * Resilience4j Circuit Breaker
 * Maven
+
+---
 
 ## Frontend
 
@@ -96,11 +108,16 @@ Transaction Service    Notification Service
 * Vite
 * Axios
 * React Router DOM
+* React Speech Recognition
 * CSS
+
+---
 
 ## Database
 
 * MySQL
+
+---
 
 ## DevOps & Tools
 
@@ -109,7 +126,8 @@ Transaction Service    Notification Service
 * Git
 * GitHub
 * Postman
-* STS / IntelliJ IDEA
+* STS
+* IntelliJ IDEA
 
 ---
 
@@ -123,6 +141,7 @@ Transaction Service    Notification Service
 
 * Service Discovery
 * Service Registration
+* Service Health Monitoring
 
 ---
 
@@ -135,6 +154,7 @@ Transaction Service    Notification Service
 * Central Entry Point
 * Request Routing
 * Load Balancing Support
+* Secure Routing
 
 ---
 
@@ -148,8 +168,8 @@ Transaction Service    Notification Service
 * User Login
 * Change Password
 * Profile Management
+* JWT Token Generation
 * Redis Cache Integration
-* JWT Authentication
 
 ---
 
@@ -163,6 +183,7 @@ Transaction Service    Notification Service
 * Withdraw Money
 * Fund Transfer
 * Account Details
+* OpenFeign Integration
 * Kafka Producer
 * Circuit Breaker
 
@@ -189,6 +210,41 @@ Transaction Service    Notification Service
 * Deposit Notifications
 * Transfer Notifications
 * Kafka Consumer
+* Alert Service
+
+---
+
+# 🔗 OpenFeign Client
+
+OpenFeign is used for communication between microservices without writing boilerplate REST code.
+
+### Example
+
+```java
+@FeignClient(name = "user-service")
+public interface UserClient {
+
+    @GetMapping("/users/email/{email}")
+    UserDto getUserByEmail(
+        @PathVariable("email") String email
+    );
+}
+```
+
+### Flow
+
+```text
+Bank Service
+      |
+      v
+ OpenFeign Client
+      |
+      v
+ User Service
+      |
+      v
+ MySQL Database
+```
 
 ---
 
@@ -236,13 +292,20 @@ Redis is used to cache frequently accessed user data.
 * Better Performance
 * Improved Scalability
 
+### Example
+
+```java
+@Cacheable(value = "users", key = "#id")
+public User getUser(Long id)
+```
+
 ---
 
 # 🛡️ Circuit Breaker
 
 Implemented using **Resilience4j**.
 
-### Example
+### Flow
 
 ```text
 Bank Service
@@ -261,25 +324,50 @@ Fallback response is returned without affecting the entire application.
 
 ---
 
+# 🎤 Voice Banking Assistant
+
+Voice Banking is implemented using React Speech Recognition.
+
+### Supported Commands
+
+* Deposit
+* Withdraw
+* Transfer
+* Statement
+* History
+* Profile
+* Change Password
+* Logout
+
+### Example
+
+```text
+User Says:
+"Transfer Money"
+
+Application Navigates To:
+/transfer
+```
+
+---
+
 # 🔐 Authentication
 
 Implemented using JWT (JSON Web Token).
 
-### APIs
-
-#### Register
+### Register
 
 ```http
 POST /api/auth/register
 ```
 
-#### Login
+### Login
 
 ```http
 POST /api/auth/login
 ```
 
-#### Change Password
+### Change Password
 
 ```http
 PUT /api/auth/change-password
@@ -305,6 +393,12 @@ POST /api/account/withdraw
 
 ```http
 POST /api/account/transfer
+```
+
+### Account Details
+
+```http
+GET /api/account/details/{id}
 ```
 
 ### Transactions
@@ -374,6 +468,7 @@ Run services in the following order:
 
 <img width="1903" height="859" alt="72f6558b-ac2e-4055-82a7-626ccaad4ded" src="https://github.com/user-attachments/assets/37081dd4-4550-487a-ba58-fe81ddb9627f" />
 
+
 ---
 
 # ✅ Implemented Features
@@ -381,22 +476,28 @@ Run services in the following order:
 * Microservices Architecture
 * React Frontend
 * Spring Boot Backend
+* Java 17
 * JWT Authentication
+* Role-Based Login (Admin/User/Manager)
+* User Registration & Login
+* Change Password
 * MySQL Integration
 * Eureka Discovery Server
 * API Gateway
+* OpenFeign Client
 * Kafka Producer
 * Kafka Consumer
 * Redis Cache
 * Circuit Breaker Pattern
+* Voice Banking Assistant
+* Dynamic Role Management
 * Docker Support
-* GitHub CI Ready
+* GitHub Integration
 
 ---
 
 # 🚀 Future Enhancements
 
-* OpenFeign Client
 * Swagger/OpenAPI Documentation
 * Email Notifications
 * SMS Notifications
@@ -406,15 +507,33 @@ Run services in the following order:
 * Prometheus Monitoring
 * Grafana Dashboard
 * CI/CD Pipeline with Jenkins
+* Distributed Tracing with Zipkin
+* OpenTelemetry Integration
+* Account Statement PDF Generation
+* Real-Time Notification Service
 
 ---
 
 # 👨‍💻 Author
 
-**Pradyumna Khot**
+## Pradyumna Khot
 
 Java Full Stack Developer
 
-GitHub:
-https://github.com/Pradhumnkhot/hdfc-banking-app
+### Skills
 
+* Java
+* Spring Boot
+* Microservices
+* React.js
+* Kafka
+* Redis
+* OpenFeign
+* JWT Authentication
+* MySQL
+* Eureka Server
+* API Gateway
+
+GitHub Repository:
+
+https://github.com/Pradhumnkhot/hdfc-banking-app
